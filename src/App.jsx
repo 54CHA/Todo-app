@@ -10,6 +10,10 @@ function App() {
     setToDoList([...toDoList, newTask]);
   };
 
+  function deleteTask(deleteTaskName){
+    setToDoList(toDoList.filter((task)=> task.taskName !== deleteTaskName));
+  }
+
   console.log(toDoList);
 
   return (
@@ -23,9 +27,11 @@ function App() {
         <span>To do</span>
         <ul className="list-items">
           {toDoList.map((task, key) => (
-            <TaskItem task={task} key={key}/>
+            <TaskItem task={task} key={key} deleteTask={deleteTask}/>
           ))}
         </ul>
+
+        {toDoList.length ===0? <p className="notify">No tasks at the moment</p> : null}
       </div>
     </>
   );
