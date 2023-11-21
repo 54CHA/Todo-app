@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TaskInput from "./components/TaskInput";
 import TaskItem from "./components/TaskItem";
+import Stats from "./components/Stats";
 
 function App() {
   const [toDoList, setToDoList] = useState([]);
@@ -10,8 +11,16 @@ function App() {
     setToDoList([...toDoList, newTask]);
   };
 
-  function deleteTask(deleteTaskName){
-    setToDoList(toDoList.filter((task)=> task.taskName !== deleteTaskName));
+  function deleteTask(deleteTaskName) {
+    setToDoList(toDoList.filter((task) => task.taskName !== deleteTaskName));
+  }
+
+  function toggleCheck(taskName) {
+    setToDoList((prevToDoList) =>
+      prevToDoList.map((task) =>
+        task.taskName === taskName ? { ...task, checked: !task.checked } : task
+      )
+    );
   }
 
   console.log(toDoList);
@@ -23,16 +32,20 @@ function App() {
 
         <TaskInput addTask={addTask} />
 
-        <div className="toDoList"></div>
-        <span>To do</span>
-        <ul className="list-items">
-          {toDoList.map((task, key) => (
-            <TaskItem task={task} key={key} deleteTask={deleteTask}/>
-          ))}
-        </ul>
+        <div className="toDoList">
+          <span>To do</span>
+          <ul className="list-items">
+            {toDoList.map((task, key) => (
+              <TaskItem task={task} key={key} deleteTask={deleteTask} toggleCheck={toggleCheck} />
+            ))}
+          </ul>
 
-        {toDoList.length ===0? <p className="notify">No tasks at the moment</p> : null}
+          {toDoList.length === 0 ? (
+            <p className="notify">No tasks at the moment</p>
+          ) : null}
+        </div>
       </div>
+      <Stats toDoList={toDoList}/>
     </>
   );
 }
