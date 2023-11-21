@@ -6,7 +6,7 @@ const TaskItem = ({task}) => {
     <li className='items'>
         <div className="items-text">
             <input type="checkbox" />
-            <p>item </p>
+            <p>{task.taskName}</p>
         </div>
         <MdDeleteSweep className='delete-icon'/>
     </li>
